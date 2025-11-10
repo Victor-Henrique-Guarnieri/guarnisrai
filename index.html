@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guarnisrai e a Lua de Sangue - Lançamento Oficial</title>
+    <!-- Tailwind CSS CDN --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font: Inter --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome para Ícones --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+        }
+
+        /* Fundo da seção Hero com a imagem do jogo e um gradiente escuro */
+        .hero-section {
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 1) 100%), url('image_324347.jpg');
+            background-size: cover;
+            background-position: center center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative; /* Para as partículas */
+            overflow: hidden;
+        }
+
+        /* Brilho vermelho mais intenso para o título principal */
+        .text-hero-shadow {
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.7), 
+                         0 0 25px rgba(255, 0, 0, 0.5), 
+                         0 0 40px rgba(220, 38, 38, 0.4);
+        }
+
+        /* Brilho sutil para texto secundário */
+        .text-glow-red {
+            text-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+        }
+
+        /* Animação de fade-in */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 1s ease-out forwards; opacity: 0; }
+        .fade-in-delay-1 { animation-delay: 0.2s; }
+        .fade-in-delay-2 { animation-delay: 0.4s; }
+        .fade-in-delay-3 { animation-delay: 0.6s; }
+        .fade-in-delay-4 { animation-delay: 0.8s; }
+
+        /* Gradiente de fundo para seções */
+        .section-bg-dark {
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
+        }
+        .section-bg-red-gradient {
+            background: linear-gradient(90deg, #1a1a1a 0%, #3d0a0a 50%, #1a1a1a 100%);
+        }
+
+        /* Estilo para a lua de sangue no fundo */
+        .blood-moon-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80vmin; /* Ajusta o tamanho da lua com o viewport */
+            height: 80vmin;
+            max-width: 600px;
+            max-height: 600px;
+            background-color: #8b0000; /* Vermelho escuro */
+            border-radius: 50%;
+            opacity: 0.15; /* Sutil */
+            filter: blur(80px); /* Efeito de brilho difuso */
+            z-index: 0;
+        }
+
+        /* Animação de Partículas (Simuladas com CSS) */
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 0, 0, 0.3);
+            border-radius: 50%;
+            animation: particleAnimation linear infinite;
+        }
+
+        @keyframes particleAnimation {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            50% { opacity: 0.1; }
+            100% { transform: translate(var(--x), var(--y)) scale(var(--s)); opacity: 0; }
+        }
+        /* Definição de partículas para serem geradas via JS */
+
+        /* Estilo para a borda vermelha animada dos cards */
+        .border-animate {
+            position: relative;
+            overflow: hidden;
+        }
+        .border-animate::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;s
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, #a00, #f00, #a00) 1;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .border-animate:hover::before {
+            opacity: 1;
+            transform: scale(1.02); /* Leve expansão no hover */
+        }
+
+    </style>
+</head>
+<body class="text-gray-200 antialiased">
+
+    <!-- Seção Hero: Tela Cheia com Lua de Sangue e Partículas --><section class="hero-section text-center text-white relative overflow-hidden">
+        <div class="blood-moon-overlay"></div>
+        <!-- Partículas (geradas via JS abaixo) --><div class="z-10 p-4 relative"> <!-- Adicionado relative para empilhar corretamente --><!-- Logo Senacplay --><img src="./ANEXOS/imagem.png" alt="Logo Senacplay Apresenta" class="w-40 mx-auto rounded-lg mb-8 opacity-70 fade-in fade-in-delay-1">
+            
+            <!-- Título do Jogo --><h1 class="text-6xl sm:text-8xl md:text-9xl font-black uppercase text-gray-100 text-hero-shadow tracking-tighter fade-in fade-in-delay-2">
+                Guarnisrai
+            </h1>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold uppercase text-red-600 tracking-wider fade-in fade-in-delay-3">
+                E a Lua de Sangue
+            </h2>
+            
+            <!-- CTA de Lançamento --><div class="mt-16 fade-in fade-in-delay-4">
+                <h4 class="text-2xl font-semibold text-gray-200 mb-3 uppercase tracking-wider text-glow-red">Lançamento Oficial</h4>
+                <p class="text-5xl md:text-7xl font-black text-red-500 text-hero-shadow animate-pulse">
+                    EM BREVE
+                </p>
+                <p class="text-xl text-gray-300 mt-3">Prepare sua katana. A escuridão aguarda.</p>
+            </div>
+        </div>
+        
+        <!-- Seta para rolar para baixo --><div class="absolute bottom-10 z-10 fade-in fade-in-delay-4">
+            <a href="#about" class="text-gray-400 hover:text-red-500 animate-bounce transition-colors duration-300">
+                <i class="fas fa-chevron-down text-4xl"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Seção Sobre (com Background da Lua de Sangue) --><section id="about" class="section-bg-dark py-20 md:py-32 relative overflow-hidden">
+        <div class="blood-moon-overlay !opacity-[0.08] !w-[60vmin] !h-[60vmin] !-top-1/4 !-left-1/4"></div> <!-- Lua sutil no canto --><div class="container mx-auto px-6 max-w-6xl relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Texto da História --><div class="text-left">
+                    <h3 class="text-4xl md:text-5xl font-black text-gray-100 mb-6 text-glow-red">
+                        <i class="fas fa-scroll mr-4 text-red-600"></i>O Legado de Guarnisrai
+                    </h3>
+                    <p class="text-lg md:text-xl text-gray-300 leading-relaxed space-y-4">
+                        <span>
+                            Séculos de paz foram despedaçados quando a <strong>Lua de Sangue</strong> ascendeu, liberando uma horda de magos sombrios e suas aberrações. A esperança repousa sobre os ombros de Guarnisrai, o último samurai guardião de sua linhagem.
+                        </span>
+                        <span>
+                            Sua katana, imbuída com a essência ancestral, é a única luz capaz de perfurar as trevas. Mergulhe em um mundo de mistério, combate e sacrifício, onde cada decisão pode selar o destino do reino.
+                        </span>
+                    </p>
+                    <a href="#" class="mt-8 inline-block px-8 py-3 bg-red-700 text-white font-bold uppercase tracking-wider rounded-lg hover:bg-red-800 transition-colors duration-300 shadow-lg text-glow-red">
+                        <i class="fas fa-book-open mr-2"></i>Saiba Mais sobre a História
+                    </a>
+                </div>
+                <!-- Imagem do Título/Menu --><div class="order-first md:order-last border-animate rounded-xl shadow-2xl shadow-red-900/40">
+                    <img src="./ANEXOS/Gemini_Generated_Image_llbi0kllbi0kllbi.png" alt="Menu do jogo Guarnisrai" class="w-full rounded-xl border-2 border-gray-800/70">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Gameplay --><section class="bg-black py-20 md:py-32 relative overflow-hidden">
+        <div class="blood-moon-overlay !opacity-[0.08] !w-[70vmin] !h-[70vmin] !top-full !left-full !translate-x-[-150%] !translate-y-[-150%]"></div> <!-- Lua sutil no canto oposto --><div class="container mx-auto px-6 max-w-6xl relative z-10">
+            <h3 class="text-4xl md:text-5xl font-black text-gray-100 mb-12 text-center text-glow-red">
+                <i class="fas fa-sword mr-4 text-red-600"></i>Domine a Lâmina
+            </h3>
+
+            <!-- Trailer do Jogo -->
+            <div class="max-w-5xl mx-auto mb-16 border-animate rounded-xl shadow-2xl shadow-red-900/40">
+                <video class="w-full rounded-xl border-2 border-gray-800/70" 
+                       controls 
+                       preload="metadata" 
+                       poster="image_324347.jpg">
+                    <source src="./ANEXOS/Nov_10__0755_22s_202511100837_amm4x.mp4" type="video/mp4">
+                    Seu navegador não suporta a tag de vídeo.
+                </video>
+            </div>
+
+            <!-- Detalhes do Gameplay (agora em 3 colunas) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center md:text-left">
+                    <h4 class="text-2xl font-bold text-red-500 mb-2"><i class="fas fa-sparkles mr-2"></i>Combate Preciso</h4>
+                    <p class="text-lg text-gray-300">
+                        Enfrente inimigos desafiadores com um sistema de combate responsivo, onde timing e estratégia são cruciais. Desvie, defenda e contra-ataque com sua katana.
+                    </p>
+                </div>
+                <div class="text-center md:text-left">
+                    <h4 class="text-2xl font-bold text-red-500 mb-2"><i class="fas fa-map-marked-alt mr-2"></i>Mundo Interconectado</h4>
+                    <p class="text-lg text-gray-300">
+                        Explore fases desenhadas à mão, repletas de segredos, armadilhas e novos caminhos. Desvende os mistérios de cada área corrompida.
+                    </p>
+                </div>
+                <div class="text-center md:text-left">
+                    <h4 class="text-2xl font-bold text-red-500 mb-2"><i class="fas fa-hat-wizard mr-2"></i>Inimigos Místicos</h4>
+                    <p class="text-lg text-gray-300">
+                        Confronte uma variedade de magos sombrios e bestas fantásticas, cada um com padrões de ataque únicos que exigirão sua maestria.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Game Over (com Background da Lua de Sangue) --><section class="section-bg-red-gradient py-20 md:py-32 relative overflow-hidden">
+        <div class="blood-moon-overlay !opacity-[0.1] !w-[50vmin] !h-[50vmin] !top-1/2 !left-1/2"></div> <!-- Lua central sutil --><div class="container mx-auto px-6 max-w-6xl relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Texto --><div class="text-left order-2 md:order-1">
+                    <h3 class="text-4xl md:text-5xl font-black text-gray-100 mb-6 text-glow-red">
+                        <i class="fas fa-skull-crossbones mr-4 text-red-600"></i>A Morte é Apenas o Começo
+                    </h3>
+                    <p class="text-lg md:text-xl text-gray-300 leading-relaxed">
+                        Em <strong>Guarnisrai</strong>, cada "Você Morreu" não é um fim, mas um convite para aprimorar suas habilidades. A curva de aprendizado é íngreme, mas a recompensa, imensa.
+                        <br><br>
+                        A persistência forjará sua lenda. Você está pronto para aceitar o desafio e tentar novamente, não importa quantas vezes caia?
+                    </p>
+                    <a href="#" class="mt-8 inline-block px-8 py-3 bg-red-700 text-white font-bold uppercase tracking-wider rounded-lg hover:bg-red-800 transition-colors duration-300 shadow-lg text-glow-red">
+                        <i class="fas fa-redo-alt mr-2"></i>Encare o Desafio Novamente
+                    </a>
+                </div>
+                <!-- Imagem Game Over --><div class="order-1 md:order-2 border-animate rounded-xl shadow-2xl shadow-red-900/40">
+                    <img src="./ANEXOS/gameover.png" alt="Tela de Game Over - Você Morreu, Tente Novamente" class="w-full rounded-xl border-2 border-gray-800/70">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Senacplay Apresenta --><section class="bg-black py-20 md:py-32 text-center relative overflow-hidden">
+        <div class="container mx-auto px-6 max-w-4xl relative z-10">
+            <h3 class="text-4xl md:text-5xl font-black text-gray-100 mb-12 text-glow-red">
+                Uma Produção
+            </h3>
+            <p class="text-xl md:text-2xl text-gray-300 leading-relaxed mb-6">
+                <strong>Senacplay</strong> tem orgulho de apresentar <strong>Guarnisrai e a Lua de Sangue</strong>, um projeto desenvolvido com paixão e dedicação.
+            </p>
+            <a href="#" class="inline-block px-8 py-3 bg-green-700 text-white font-bold uppercase tracking-wider rounded-lg hover:bg-green-800 transition-colors duration-300 shadow-lg">
+                <i class="fas fa-users mr-2"></i>SENACPLAY
+            </a>
+        </div>
+    </section>
+
+
+    <!-- Rodapé --><footer class="w-full text-center py-16 section-bg-dark border-t border-gray-900">
+        <div class="container mx-auto px-6 max-w-6xl flex flex-col md:flex-row justify-between items-center text-gray-500">
+            <div class="text-left mb-6 md:mb-0">
+                <h4 class="text-xl font-bold text-gray-200">GUARNISRAI</h4>
+                <p class="text-sm">E a Lua de Sangue</p>
+            </div>
+            <div class="text-center md:text-right">
+                 <p class="text-sm">
+                    Um projeto de ano letivo do grupo <strong class="font-bold text-gray-400">Senacplay</strong>.
+                </p>
+                <p class="text-xs mt-1">
+                    © 2025 Todos os direitos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Função para gerar partículas
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            const size = Math.random() * 3 + 1; // 1 to 4px
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            const startX = Math.random() * window.innerWidth;
+            const startY = Math.random() * window.innerHeight;
+            particle.style.left = `${startX}px`;
+            particle.style.top = `${startY}px`;
+
+            const endX = (Math.random() - 0.5) * 500; // -250 to 250px
+            const endY = (Math.random() - 0.5) * 500; // -250 to 250px
+            particle.style.setProperty('--x', `${endX}px`);
+            particle.style.setProperty('--y', `${endY}px`);
+            particle.style.setProperty('--s', `${Math.random() * 0.5 + 0.5}`); // scale 0.5 to 1
+
+            const duration = Math.random() * 8 + 5; // 5 to 13 seconds
+            particle.style.animationDuration = `${duration}s`;
+            particle.style.animationDelay = `-${Math.random() * duration}s`; // Start at random point in animation
+
+            document.querySelector('.hero-section').appendChild(particle);
+
+            // Remover partícula após a animação
+            particle.addEventListener('animationend', () => {
+                particle.remove();
+            });
+        }
+
+        // Gerar um número de partículas
+        const numParticles = 50;
+        for (let i = 0; i < numParticles; i++) {
+            createParticle();
+        }
+
+        // Fazer as partículas reaparecerem
+        setInterval(() => {
+            createParticle();
+        }, 1000); // Adicionar uma nova partícula a cada segundo
+
+        // Animação de fade-in ao scroll
+        const faders = document.querySelectorAll('.fade-in');
+        const appearOptions = {
+            threshold: 0.1, // Elemento visível 10%
+            rootMargin: "0px 0px -50px 0px" // Inicia 50px antes do final da tela
+        };
+        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    appearOnScroll.unobserve(entry.target);
+                }
+            });
+        }, appearOptions);
+
+        faders.forEach(fader => {
+            appearOnScroll.observe(fader);
+        });
+    </script>
+</body>
+</html>
